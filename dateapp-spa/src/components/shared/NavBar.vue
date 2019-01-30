@@ -1,7 +1,7 @@
 <template>
     <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase pa-3">
-        <span>Dating App</span>
+      <v-toolbar-title  >
+         <v-btn class="headline text-uppercase pa-3" flat to="/">Dating App</v-btn>
       </v-toolbar-title>
        <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat>Matches</v-btn>

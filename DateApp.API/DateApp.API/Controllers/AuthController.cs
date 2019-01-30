@@ -42,7 +42,12 @@ namespace DateApp.API.Controllers
 
             var createdUser = await _repo.Register(newUser, userDTO.Password);
 
-            return StatusCode(201);
+            string token = await (GenerateToken(createdUser.ID.ToString(), createdUser.UserName));
+            return Ok(new
+            {
+                user= createdUser,
+                token
+            });
 
         }
 
@@ -52,12 +57,23 @@ namespace DateApp.API.Controllers
             var userFromRepo = await _repo.Login(userForLogin.UserName.ToLower(), userForLogin.Password);
 
             if (userFromRepo == null)
-                return Unauthorized();
+                return BadRequest();
 
+            string token = await (GenerateToken(userFromRepo.ID.ToString(), userFromRepo.UserName));
+
+            return Ok(new
+            {
+                token
+            });
+
+        }
+
+        public async Task<string> GenerateToken(string userID,string userName)
+        {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier,userFromRepo.ID.ToString()),
-                new Claim (ClaimTypes.Name, userFromRepo.UserName)
+                new Claim(ClaimTypes.NameIdentifier,userID),
+                new Claim (ClaimTypes.Name, userName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
@@ -75,12 +91,7 @@ namespace DateApp.API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token)
-            });
-
+            return tokenHandler.WriteToken(token);
         }
     }
 }

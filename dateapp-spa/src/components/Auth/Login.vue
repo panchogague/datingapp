@@ -1,8 +1,10 @@
 <template>
+  <div>
   <v-form
     ref="form"
     v-model="valid"
     lazy-validation
+    v-if="!isLogin"
   >
     <v-layout row wrap class="text-lg-right">
       <v-spacer></v-spacer>
@@ -13,7 +15,7 @@
                   solo-inverted
                   hide-details
                   required
-                  class="pa-3"
+                  class="pa-1"
                   v-model="userName"
                   ></v-text-field>
       </v-flex>
@@ -25,11 +27,11 @@
                   solo-inverted
                   hide-details
                   required
-                  class="pa-3"
+                  class="pa-1"
                   v-model="password"
                   ></v-text-field>
       </v-flex>
-      <v-flex xs6 sm4 md2 class="pa-3">
+      <v-flex xs6 sm4 md2 class="pa-1">
         <v-btn color="success" @click="login"
          >
           <span class="mr-2" >Login</span>
@@ -37,6 +39,11 @@
       </v-flex>
     </v-layout>
   </v-form>
+   <v-toolbar-items class="hidden-sm-and-down" v-if="isLogin">
+      <span class="p-1">Welcome {{userName}}</span>
+      <v-btn flat @click="logOut">Log Out</v-btn>
+    </v-toolbar-items>
+  </div>
 </template>
 <script>
 export default {
@@ -66,19 +73,30 @@ export default {
         return;
       }
 
-      this.$http.post("https://localhost:44386/api/auth/login",
-                      {
-                        username: this.userName,
-                        password: this.password
-                      })
+      this.$store.dispatch('login', 
+      {  
+        username: this.userName,
+        password: this.password 
+      })
       .then(response => {
         console.log(response);
       })
       .catch(e => {
         alert(e);
       });
-      
+    },
+    logOut () {
+      this.$store.dispatch('logout').then(resp=>
+      {
+        this.userName='';
+        this.password='';
+      });
     }
-  }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLoggedIn
+    }
+  },
 }
 </script>
