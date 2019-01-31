@@ -39,10 +39,22 @@
       </v-flex>
     </v-layout>
   </v-form>
-   <v-toolbar-items class="hidden-sm-and-down" v-if="isLogin">
-      <span class="p-1">Welcome {{userName}}</span>
-      <v-btn flat @click="logOut">Log Out</v-btn>
-    </v-toolbar-items>
+   <div class="text-xs-center" v-if="isLogin">
+    <v-menu offset-y>
+      <v-btn
+        slot="activator"
+        flat
+      >
+        Welcome
+        <v-icon>keyboard_arrow_down</v-icon>
+      </v-btn>
+      <v-list>
+        <v-list-tile @click="logOut">
+          <v-list-tile-title>Log Out</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
+  </div>
   </div>
 </template>
 <script>
@@ -58,20 +70,20 @@ export default {
   },
   methods: {
     login () {
-      this.valid=true;
-      if(this.userName === ''){
-        this.valid=false;
-        this.errorUsername ="Ingrese usuario";
-      }
+      // this.valid=true;
+      // if(this.userName === ''){
+      //   this.valid=false;
+      //   this.errorUsername ="Ingrese usuario";
+      // }
 
-      if(this.password === ''){
-         this.valid=false;
-         this.errorUsername ="Ingrese password";
-      }
+      // if(this.password === ''){
+      //    this.valid=false;
+      //    this.errorUsername ="Ingrese password";
+      // }
      
-      if(!this.valid) {
-        return;
-      }
+      // if(!this.valid) {
+      //   return;
+      // }
 
       this.$store.dispatch('login', 
       {  
