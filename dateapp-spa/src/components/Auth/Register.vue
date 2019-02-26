@@ -39,10 +39,11 @@ export default {
                     password: this.password 
                 })
                 .then(response => {
+                   this.$alertify.success('register success');
                     this.$router.push('/')
                 })
                 .catch(e => {
-                    alert(e);
+                     this.$alertify.error('Error with register');
                 });
         }
     },

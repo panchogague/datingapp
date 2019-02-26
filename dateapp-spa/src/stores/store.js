@@ -1,23 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import VueJWT from 'vuejs-jwt'
 
+Vue.use(VueJWT)
 Vue.use(Vuex)
 
 export const store = new Vuex.Store ({
     state:{
         status:'',
         token: localStorage.getItem('token') || '',
-        user:{}
+        user:{id:'', username:''}
     },
     mutations: {
         auth_request(state){
             state.status = 'loading'
           },
-          auth_success(state, token, user){
+          auth_success(state,{token, userDecode}){
             state.status = 'success'
             state.token = token
-            state.user = user
+            state.user = userDecode
           },
           auth_error(state){
             state.status = 'error'
@@ -34,13 +36,15 @@ export const store = new Vuex.Store ({
               axios({url: 'https://localhost:44386/api/auth/login', data: user, method: 'POST' })
               .then(resp => {
                 const token = resp.data.token
-                const user = resp.data.user
+                const decodeToken=Vue.$jwt.decode(token)
+                const userDecode = {id:decodeToken.nameid, username:decodeToken.unique_name}
                 localStorage.setItem('token', token)
                 axios.defaults.headers.common['Authorization'] = token
-                commit('auth_success', token, user)
+                commit('auth_success', {token,userDecode})
                 resolve(resp)
               })
               .catch(err => {
+                console.error(err)
                 commit('auth_error')
                 localStorage.removeItem('token')
                 reject(err)
@@ -73,10 +77,17 @@ export const store = new Vuex.Store ({
               delete axios.defaults.headers.common['Authorization']
               resolve()
             })
+          },
+          setTokenUser({commit}){
+            const token = localStorage.getItem('token')
+            const decodeToken=Vue.$jwt.decode(token)
+            const userDecode = {id:decodeToken.nameid, username:decodeToken.unique_name}
+            commit('auth_success',{token,userDecode})
           }
     },
     getters: {
         isLoggedIn: state => !!state.token,
-        authStatus: state => state.status
+        authStatus: state => state.status,
+        userName: state => state.user.username
     }
 })

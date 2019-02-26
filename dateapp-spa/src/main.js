@@ -4,6 +4,9 @@ import App from './App.vue'
 import Axios from 'axios'
 import {store} from './stores/store'
 import {router} from './routers/router'
+import VueAlertify from 'vue-alertify'
+
+Vue.use(VueAlertify);
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem('token')
 if (token) {
@@ -11,8 +14,22 @@ if (token) {
 }
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/') 
+  } else {
+    next() 
+  }
+})
 new Vue({
   store,
   router,
   render: h => h(App),
+  created() {
+    store.dispatch('setTokenUser')
+  },
 }).$mount('#app')

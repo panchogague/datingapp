@@ -45,7 +45,7 @@
         slot="activator"
         flat
       >
-        Welcome
+        Welcome {{userLogIn}}
         <v-icon>keyboard_arrow_down</v-icon>
       </v-btn>
       <v-list>
@@ -91,10 +91,11 @@ export default {
         password: this.password 
       })
       .then(response => {
-        console.log(response);
+        this.$alertify.success('login success');
+        this.$router.push('member') 
       })
       .catch(e => {
-        alert(e);
+        this.$alertify.error('user or password wrong');
       });
     },
     logOut () {
@@ -102,12 +103,17 @@ export default {
       {
         this.userName='';
         this.password='';
+        this.$alertify.success('log out success');
+        this.$router.push('/') 
       });
     }
   },
   computed: {
     isLogin() {
       return this.$store.getters.isLoggedIn
+    },
+    userLogIn () {
+      return this.$store.getters.userName;
     }
   },
 }
