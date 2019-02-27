@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace DateApp.API.Data
 {
-    public class DataContext:DbContext
+    public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options): base (options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
 
         public DbSet<ValuesModel> Values { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<PhotoModel> Photos {get;set;}
     }
 }
