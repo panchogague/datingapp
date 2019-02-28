@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueJWT from 'vuejs-jwt'
-
+import {URLAPI} from '../config/variables.js'
 Vue.use(VueJWT)
 Vue.use(Vuex)
 
@@ -33,13 +33,13 @@ export const store = new Vuex.Store ({
         login({commit}, user){
             return new Promise((resolve, reject) => {
               commit('auth_request')
-              axios({url: 'https://localhost:44386/api/auth/login', data: user, method: 'POST' })
+              axios({url: URLAPI+'auth/login', data: user, method: 'POST' })
               .then(resp => {
                 const token = resp.data.token
                 const decodeToken=Vue.$jwt.decode(token)
                 const userDecode = {id:decodeToken.nameid, username:decodeToken.unique_name}
                 localStorage.setItem('token', token)
-                axios.defaults.headers.common['Authorization'] = token
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
                 commit('auth_success', {token,userDecode})
                 resolve(resp)
               })
@@ -54,7 +54,7 @@ export const store = new Vuex.Store ({
         register({commit}, user){
             return new Promise((resolve, reject) => {
               commit('auth_request')
-              axios({url: 'https://localhost:44386/api/auth/register', data: user, method: 'POST' })
+              axios({url: URLAPI+'auth/register', data: user, method: 'POST' })
               .then(resp => {
                 const token = resp.data.token
                 const user = resp.data.user
