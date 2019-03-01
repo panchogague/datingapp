@@ -49,8 +49,11 @@
         <v-icon>keyboard_arrow_down</v-icon>
       </v-btn>
       <v-list>
+        <v-list-tile to="/member/edit">
+          <v-list-tile-title><v-icon>account_circle</v-icon> Edit</v-list-tile-title>
+        </v-list-tile>
         <v-list-tile @click="logOut">
-          <v-list-tile-title>Log Out</v-list-tile-title>
+          <v-list-tile-title><v-icon>input</v-icon> Log Out</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>

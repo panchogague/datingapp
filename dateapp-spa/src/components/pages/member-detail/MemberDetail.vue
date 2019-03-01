@@ -89,8 +89,7 @@
     
 </template>
 <script>
-import axios from 'axios';
-import {URLAPI} from '../../../config/variables.js';
+import UserService from '../../../services/userService.js';
 export default {
      data: () => ({
           user:{}, 
@@ -112,16 +111,16 @@ export default {
       }),
       methods:{
           loadingMember(id){
-             return axios({url: URLAPI+'users/'+id, method: 'GET' })
-              .then(resp => {
-                  this.user = resp.data;
-                  console.log(this.user);
-              })
-              .catch(err=> this.$alertify.error(err));
+            UserService.getMember(id).then(response => {
+               this.user = response
+           })
+           .catch(error => {
+               this.$alertify.error(error);
+           })
           },
            
       },
-      created() {
+      mounted() {
           this.loadingMember(this.$route.params.id);
       }
 }

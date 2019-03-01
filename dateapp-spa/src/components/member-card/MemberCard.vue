@@ -22,7 +22,7 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-btn flat color="orange" :to="'/member/'+user.id"><v-icon>account_box</v-icon></v-btn>
+          <v-btn flat color="orange" :to="'/members/'+user.id"><v-icon>account_box</v-icon></v-btn>
           <v-btn flat color="orange"><v-icon>favorite</v-icon></v-btn>
           <v-btn flat color="orange"><v-icon>email</v-icon></v-btn>
         </v-card-actions>

@@ -88,6 +88,7 @@ export const store = new Vuex.Store ({
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
-        userName: state => state.user.username
+        userName: state => state.user.username,
+        userId: state => state.user.id
     }
 })

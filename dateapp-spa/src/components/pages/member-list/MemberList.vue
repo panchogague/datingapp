@@ -10,10 +10,9 @@
     </v-content>
 </template>
 <script>
-import axios from 'axios';
-import {URLAPI} from '../../../config/variables.js';
-import MemberCard from '../../member-card/MemberCard';
 
+import MemberCard from '../../member-card/MemberCard';
+import UserService from '../../../services/userService.js';
 export default {
       components:{
           'app-member-card':MemberCard
@@ -23,14 +22,15 @@ export default {
       }),
       methods:{
           loadingMembers(){
-             return axios({url: URLAPI+'users', method: 'GET' })
-              .then(resp => {
-                  this.members = resp.data;
-              })
-              .catch(err=> this.$alertify.error(err));
+            UserService.getMembers().then(response => {
+               this.members = response
+           })
+           .catch(error => {
+               this.$alertify.error(error);
+           })
           }
       },
-      created() {
+      mounted() {
           this.loadingMembers();
       },
 
