@@ -83,7 +83,7 @@ namespace DateApp.API
                 });
             }
            // seeder.Seedusers();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();

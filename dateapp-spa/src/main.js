@@ -20,6 +20,15 @@ if (token) {
 }
 Vue.config.productionTip = false
 
+Vue.prototype.$http.interceptors.response.use(response => {
+  return response;
+}, error => {
+  const { config, response: { status } } = error;
+  if(status === 401){
+    store.dispatch('logout')
+  }
+})
+
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {

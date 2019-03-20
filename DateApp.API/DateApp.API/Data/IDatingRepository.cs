@@ -1,4 +1,5 @@
-﻿using DateApp.API.Models;
+﻿using DateApp.API.Helpers;
+using DateApp.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace DateApp.API.Data
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
-        Task<IEnumerable<UserModel>> GetUsers();
+        Task<PagedList<UserModel>> GetUsers(UserParams userParams);
         Task<UserModel> GetUser(int id);
+        Task<PhotoModel> GetPhoto(int id);
+        Task<PhotoModel> GetMainPhotoForUser(int userId);
     }
 }

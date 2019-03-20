@@ -95,7 +95,7 @@ export default {
       })
       .then(response => {
         this.$alertify.success('login success');
-        this.$router.push('member') 
+        this.$router.push('members') 
       })
       .catch(e => {
         this.$alertify.error('user or password wrong');

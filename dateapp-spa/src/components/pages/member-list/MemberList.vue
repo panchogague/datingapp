@@ -18,12 +18,14 @@ export default {
           'app-member-card':MemberCard
       },
       data: () => ({
-          members:[]
+          members:[],
+          pageNumber:1,
+          pageSize:5
       }),
       methods:{
           loadingMembers(){
-            UserService.getMembers().then(response => {
-               this.members = response
+            UserService.getMembers(this.pageNumber,this.pageSize).then(response => {
+               this.members = response.data
            })
            .catch(error => {
                this.$alertify.error(error);
@@ -33,6 +35,7 @@ export default {
       mounted() {
           this.loadingMembers();
       },
+      
 
 }
 </script>

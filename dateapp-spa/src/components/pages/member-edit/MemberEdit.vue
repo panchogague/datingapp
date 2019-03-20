@@ -81,7 +81,7 @@
                           Edit Photos
                     </v-tab>
                     <v-tab-item class="pa-3">
-                        <p>fotos edit will be here</p>
+                        <app-edit-photo :photos="user.photos" @photoDelete="deletePhoto" @photoChange="photoChange"></app-edit-photo>
                     </v-tab-item>
     </v-tabs>
             </v-flex>
@@ -91,7 +91,11 @@
 </template>
 <script>
 import UserService from '../../../services/userService.js';
+import PhotoEdit from '../../photo-edit/PhotoEdit.vue';
 export default {
+    components:{
+        'app-edit-photo':PhotoEdit
+    },
      data: () => ({
           user:{},
           dirty: false,
@@ -110,6 +114,17 @@ export default {
                 this.$alertify.success("Profile update successfully");
              }).catch((err)=> this.$alertify.error(err))
              
+         },
+         photoChange($event){
+             this.user.photoUrl =$event.url
+              this.$store.dispatch('setAvatarUrl', 
+              {  
+                url: this.user.photoUrl
+              })
+         },
+          deletePhoto($event){
+              console.log($event);
+              this.user.photos = this.user.photos.filter(p => p.id != $event.id);
          }
      },
       mounted() {

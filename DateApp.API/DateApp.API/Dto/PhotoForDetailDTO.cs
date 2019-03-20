@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DateApp.API.Dto
 {
-    public class PhotosForDetailDTO
+    public class PhotoForDetailDTO
     {
         public int ID { get; set; }
         public string Url { get; set; }

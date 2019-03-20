@@ -10,7 +10,8 @@ export const store = new Vuex.Store ({
     state:{
         status:'',
         token: localStorage.getItem('token') || '',
-        user:{id:'', username:''}
+        user:{id:'', username:''},
+        avatarUrl:''
     },
     mutations: {
         auth_request(state){
@@ -27,6 +28,9 @@ export const store = new Vuex.Store ({
           logout(state){
             state.status = ''
             state.token = ''
+          },
+          avatar(state,photoUrl){
+            state.avatarUrl = photoUrl.url
           }
     },
     actions:{
@@ -83,12 +87,16 @@ export const store = new Vuex.Store ({
             const decodeToken=Vue.$jwt.decode(token)
             const userDecode = {id:decodeToken.nameid, username:decodeToken.unique_name}
             commit('auth_success',{token,userDecode})
+          },
+          setAvatarUrl({commit},url){
+            commit('avatar',url)
           }
     },
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
         userName: state => state.user.username,
-        userId: state => state.user.id
+        userId: state => state.user.id,
+        avatarUrl: state=> state.avatarUrl
     }
 })
