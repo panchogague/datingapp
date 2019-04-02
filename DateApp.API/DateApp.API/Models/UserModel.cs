@@ -22,6 +22,8 @@ namespace DateApp.API.Models
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<PhotoModel> Photos { get; set; }
+        public ICollection<LikeModel> Likers { get; set; }
+        public ICollection<LikeModel> Likees { get; set; }
 
 
     }

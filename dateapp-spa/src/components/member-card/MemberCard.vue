@@ -23,7 +23,7 @@
         </v-card-title>
         <v-card-actions>
           <v-btn flat color="orange" :to="'/members/'+user.id"><v-icon>account_box</v-icon></v-btn>
-          <v-btn flat color="orange"><v-icon>favorite</v-icon></v-btn>
+          <v-btn flat color="orange" @click="setLike(user.id)"><v-icon>favorite</v-icon></v-btn>
           <v-btn flat color="orange"><v-icon>email</v-icon></v-btn>
         </v-card-actions>
       </v-card>
@@ -32,10 +32,23 @@
   </v-layout>
 </template>
 <script>
+import UserService from '../../services/userService.js';
 export default {
     props:[
         'user'
-    ]
+    ],
+    methods:{
+      setLike(id){
+        UserService.setLiker(this.userId,id).then(resp=>{
+            this.$alertify.success("Like added");
+        }).catch(err=>this.$alertify.error(err));
+      }
+    },
+    computed: {
+     userId() {
+        return this.$store.getters.userId
+        }
+    }
 }
 </script>
 

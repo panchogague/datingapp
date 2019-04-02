@@ -2,13 +2,21 @@ import axios from 'axios';
 import {URLAPI} from '../config/variables.js';
 
 export default{
-    getMembers(pageNumber,pageSize){
+    getMembers(pageNumber,pageSize,like){
+        let param={
+            pagenumber: pageNumber,
+            pagesize:pageSize
+                };
+         if(like == 'likeer' )
+        {
+            param.likeer=true;
+        }
+        else if (like == 'likees'){
+            param.likees=true;
+        }
+        console.log(param);
         return axios({url: URLAPI+'users', method: 'GET' ,
-            params: {
-                pagenumber: pageNumber,
-                pagesize:pageSize
-                    }
-                 })
+            params:param })
         .then(resp => {
             var pagination={};
             if(resp.headers["pagination"]){
@@ -53,5 +61,9 @@ export default{
     },
     deletePicture(userId,photoId){
         return  axios({url: URLAPI+'photos/'+userId+'/deletePhoto/'+photoId, method: 'DELETE' })
-    }
+    },
+    setLiker(id,userLikeId){
+        return  axios({url: URLAPI+'users/'+id+'/like/'+userLikeId, data: {}, method: 'POST' });
+    },
+   
 }

@@ -16,5 +16,6 @@ namespace DateApp.API.Data
         Task<UserModel> GetUser(int id);
         Task<PhotoModel> GetPhoto(int id);
         Task<PhotoModel> GetMainPhotoForUser(int userId);
+        Task<LikeModel> GetLike(int userId, int recipientId);
     }
 }

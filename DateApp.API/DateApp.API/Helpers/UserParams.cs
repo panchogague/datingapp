@@ -15,5 +15,11 @@ namespace DateApp.API.Helpers
             get { return pageSize; }
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
+
+        public bool Likeer { get; set; } = false;
+
+        public bool Likees { get; set; } = false;
+
+        public int UserID { get; set; }
     }
 }

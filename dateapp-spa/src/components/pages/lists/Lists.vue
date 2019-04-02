@@ -4,12 +4,15 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
-import {URLAPI} from '../../../config/variables.js';
+import UserService from '../../../services/userService.js';
 export default {
-      data: () => ({}),
+      data: () => ({
+          members:[],
+          pageNumber:1,
+          pageSize:5
+      }),
       created() {
-          axios({url: URLAPI+'users', method: 'GET' })
+          UserService.getMembers(this.pageNumber,this.pageSize,'likeer')
               .then(resp => {
                   console.log(resp);
               })
